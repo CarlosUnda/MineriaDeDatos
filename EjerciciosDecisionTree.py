@@ -42,9 +42,6 @@ entrenar_y_visualizar_arbol(X_sv, y_sv, feature_names=['Vuela', 'Fuerza', 'Agili
 entrenar_y_visualizar_arbol(X_sv, y_sv, feature_names=['Vuela', 'Fuerza', 'Agilidad'],
                              class_names=['Superhéroe', 'Villano'], criterion='entropy',
                              title='¿Superhéroe o Villano? (Entropía)')
-
-print("Para la pregunta de Wonder Woman, necesitaríamos re-entrenar el modelo con el nuevo dato y observar la estructura del árbol.")
-
 # 2. ¿Debo llevar paraguas?
 print("\n2. ¿Debo llevar paraguas?")
 data_paraguas = pd.DataFrame({
@@ -68,9 +65,6 @@ entrenar_y_visualizar_arbol(X_paraguas, y_paraguas, feature_names=['Cielo', 'Hum
                              class_names=['No', 'Sí'], criterion='entropy',
                              title='¿Debo llevar paraguas? (ID3)')
 
-print("Para la ganancia de información, sklearn no la proporciona directamente en la visualización. Tendrías que calcularla manualmente o inspeccionar el árbol entrenado.")
-print("El atributo más determinante sería el que aparece en el nodo raíz del árbol.")
-
 # 3. ¿Aprobaré el examen?
 print("\n3. ¿Aprobaré el examen?")
 data_examen = pd.DataFrame({
@@ -92,8 +86,6 @@ entrenar_y_visualizar_arbol(X_examen, y_examen, feature_names=['HorasEstudio', '
 
 print("El Gini inicial se calcularía sobre la columna 'Aprobado' antes de cualquier división.")
 gini_inicial_examen = 1 - (data_examen['Aprobado'].value_counts(normalize=True) ** 2).sum()
-print(f"Gini inicial: {gini_inicial_examen:.4f}")
-print("El árbol hasta el segundo nivel se puede observar en la visualización.")
 
 # 4. ¿Es un perro peligroso?
 print("\n4. ¿Es un perro peligroso?")
@@ -118,14 +110,12 @@ entrenar_y_visualizar_arbol(X_perro, y_perro, feature_names=['Tamaño', 'Pelaje'
                              class_names=['No', 'Sí'], criterion='entropy',
                              title='¿Es un perro peligroso? (ID3)')
 
-# Calcular la entropía del nodo raíz
+# Calcular la entropía
 def calcular_entropia(series):
     probs = series.value_counts(normalize=True)
     return - (probs * np.log2(probs)).sum()
 
 entropia_raiz_perro = calcular_entropia(data_perro['Peligroso'])
-print(f"Entropía del nodo raíz: {entropia_raiz_perro:.4f}")
-print("El atributo 'Peludo' afectará la estructura del árbol si su división resulta en una mayor ganancia de información.")
 
 # 5. ¿Me gustará la película?
 print("\n5. ¿Me gustará la película?")
@@ -147,9 +137,6 @@ y_pelicula = data_pelicula['MeGustara']
 entrenar_y_visualizar_arbol(X_pelicula, y_pelicula, feature_names=['Género', 'DirectorFamoso', 'PuntuacionIMDB'],
                              class_names=['No', 'Sí'], criterion='gini',
                              title='¿Me gustará la película? (CART)')
-
-print("La importancia de los atributos se puede inspeccionar en el árbol generado. El atributo raíz es el más importante.")
-print("La división para 'Género = Animación' se observará en la estructura del árbol, mostrando las ramas resultantes.")
 
 # 6. ¿Es un buen día para surfear?
 print("\n6. ¿Es un buen día para surfear?")
@@ -173,9 +160,6 @@ y_surf = data_surf['BuenDiaSurf']
 entrenar_y_visualizar_arbol(X_surf, y_surf, feature_names=['OlasAltas', 'VientoFuerte', 'ClimaSoleado'],
                              class_names=['No', 'Sí'], criterion='entropy',
                              title='¿Es un buen día para surfear? (ID3)')
-
-print("La ganancia de información para 'OlasAltas' no se muestra directamente. Se requeriría un análisis más profundo del modelo entrenado o un cálculo manual.")
-print("'VientoFuerte' podría ser importante si su división reduce significativamente la entropía en los nodos hijos.")
 
 # 7. ¿Ganará el partido?
 print("\n7. ¿Ganará el partido?")
@@ -201,9 +185,6 @@ entrenar_y_visualizar_arbol(X_partido, y_partido, feature_names=['Local', 'Rival
                              title='¿Ganará el partido? (CART)')
 
 gini_local_si_partido = 1 - (data_partido[data_partido['Local'] == 'Sí']['Ganara'].value_counts(normalize=True) ** 2).sum()
-print(f"Gini para Local = Sí (calculado directamente): {gini_local_si_partido:.4f}")
-print("Si 'RivalFuerte = Sí', la predicción del árbol se observará siguiendo la rama correspondiente en el árbol visualizado.")
-
 # 8. ¿Es un buen candidato para un trabajo?
 print("\n8. ¿Es un buen candidato para un trabajo?")
 data_candidato = pd.DataFrame({
@@ -224,6 +205,3 @@ y_candidato = data_candidato['Contratado']
 entrenar_y_visualizar_arbol(X_candidato, y_candidato, feature_names=['Experiencia', 'Educacion', 'HabilidadesComunicacion'],
                              class_names=['No', 'Sí'], criterion='entropy',
                              title='¿Es un buen candidato para un trabajo? (ID3)')
-
-print("La ganancia de información para 'Experiencia' no se muestra directamente. Se requeriría un análisis más profundo del modelo o un cálculo manual.")
-print("Un atributo redundante sería aquel que no aparece en el árbol o cuya división no mejora significativamente la pureza de los nodos.")
